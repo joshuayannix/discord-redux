@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import './Sidebar.css';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AddIcon from '@material-ui/icons/Add';
@@ -10,8 +11,11 @@ import { Avatar } from '@material-ui/core';
 import HeadsetIcon from '@material-ui/icons/Headset';
 import MicIcon from '@material-ui/icons/Mic';
 import SettingsIcon from '@material-ui/icons/Settings';
+import { selectUser } from './features/userSlice';
+import { auth } from './firebase';
 
 function Sidebar() {
+  const user = useSelector(selectUser)
   return (
     <div className='sidebar'>
 
@@ -39,7 +43,7 @@ function Sidebar() {
       <div className="sidebar__voice">
         <SignalCellularAtIcon 
           className='sidebar__voiceIcon'
-          font-size='large'
+          fontSize='large'
         />
         <div className="sidebar__voiceInfo">
           <h3>Voice Connected</h3>
@@ -52,10 +56,10 @@ function Sidebar() {
         </div>
       </div>      
       <div className="sidebar__profile">
-        <Avatar src='https://lumiere-a.akamaihd.net/v1/images/c94eed56a5e84479a2939c9172434567c0147d4f.jpeg?region=0,0,600,600'/>  
+        <Avatar classNAme='avatar' onClick={() => auth.signOut()} src={user.photo} />  
         <div className="sidebar__profileInfo">
-          <h3>Josh Yannix</h3>
-          <p>this is the ID</p>
+          <h3>{user.displayName}</h3>
+          <p>#{user.uid.substring(0, 5)}</p>
         </div>
 
         <div className="sidebar__profileIcons">
